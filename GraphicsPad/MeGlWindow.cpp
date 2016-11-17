@@ -98,7 +98,7 @@ void MeGlWindow::sendDataToOpenGL()
 	currentOffset += plane.vertexBufferSize();
 	planeIndexByteOffset = currentOffset;
 	glBufferSubData(GL_ARRAY_BUFFER, currentOffset, plane.indexBufferSize(), plane.indices);
-	currentOffset += plane.vertexBufferSize();
+	currentOffset += plane.indexBufferSize();
 	glBufferSubData(GL_ARRAY_BUFFER, currentOffset, torus.vertexBufferSize(), torus.vertices);
 	currentOffset += torus.vertexBufferSize();
 	torusIndexByteOffset = currentOffset;
