@@ -12,7 +12,7 @@
 #include "Camera.h"
 using namespace std;
 
-//const char * texName = "Dog.png";
+const char * texName = "Dog.png";
 
 using glm::vec3;
 using glm::vec4;
@@ -123,12 +123,12 @@ void MeGlWindow::sendDataToOpenGL()
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
-	//glEnableVertexAttribArray(3);
+	glEnableVertexAttribArray(3);
 	glBindBuffer(GL_ARRAY_BUFFER, theBufferID);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 9, 0);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 9, (void*)(sizeof(float) * 3));
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 9, (void*)(sizeof(float) * 6));
-	//glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 9, (void*)(sizeof(float) * 9));
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 11, 0);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 11, (void*)(sizeof(float) * 3));
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 11, (void*)(sizeof(float) * 6));
+	glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 11, (void*)(sizeof(float) * 8));
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, theBufferID);
 
 	//Teapot
@@ -136,13 +136,13 @@ void MeGlWindow::sendDataToOpenGL()
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
-	//glEnableVertexAttribArray(3);
+	glEnableVertexAttribArray(3);
 	glBindBuffer(GL_ARRAY_BUFFER, theBufferID);
 	GLuint teapotByteOffset = cube.vertexBufferSize() + cube.indexBufferSize();
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 9, (void*)teapotByteOffset);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 9, (void*)(teapotByteOffset + sizeof(float) * 3));
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 9, (void*)(teapotByteOffset + sizeof(float) * 6));
-	//glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 9, (void*)(teapotByteOffset + sizeof(float) * 9));
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 11, (void*)teapotByteOffset);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 11, (void*)(teapotByteOffset + sizeof(float) * 3));
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 11, (void*)(teapotByteOffset + sizeof(float) * 6));
+	glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 11, (void*)(teapotByteOffset + sizeof(float) * 8));
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, theBufferID);
 
 	//Arrow
@@ -150,13 +150,13 @@ void MeGlWindow::sendDataToOpenGL()
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
-	//glEnableVertexAttribArray(3);
+	glEnableVertexAttribArray(3);
 	glBindBuffer(GL_ARRAY_BUFFER, theBufferID);
 	GLuint arrowByteOffset = teapotByteOffset + teapot.vertexBufferSize() + teapot.indexBufferSize();
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 9, (void*)arrowByteOffset);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 9, (void*)(arrowByteOffset + sizeof(float) * 3));
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 9, (void*)(arrowByteOffset + sizeof(float) * 6));
-	//glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 9, (void*)(arrowByteOffset + sizeof(float) * 9));
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 11, (void*)arrowByteOffset);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 11, (void*)(arrowByteOffset + sizeof(float) * 3));
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 11, (void*)(arrowByteOffset + sizeof(float) * 6));
+	glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 11, (void*)(arrowByteOffset + sizeof(float) * 8));
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, theBufferID);
 
 	//Plane
@@ -164,13 +164,13 @@ void MeGlWindow::sendDataToOpenGL()
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
-	//glEnableVertexAttribArray(3);
+	glEnableVertexAttribArray(3);
 	glBindBuffer(GL_ARRAY_BUFFER, theBufferID);
 	GLuint planeByteOffset = arrowByteOffset + arrow.vertexBufferSize() + arrow.indexBufferSize();
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 9, (void*)planeByteOffset);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 9, (void*)(planeByteOffset + sizeof(float) * 3));
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 9, (void*)(planeByteOffset + sizeof(float) * 6));
-	//glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 9, (void*)(planeByteOffset + sizeof(float) * 9));
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 11, (void*)planeByteOffset);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 11, (void*)(planeByteOffset + sizeof(float) * 3));
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 11, (void*)(planeByteOffset + sizeof(float) * 6));
+	glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 11, (void*)(planeByteOffset + sizeof(float) * 8));
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, theBufferID);
 
 	//torus
@@ -178,30 +178,30 @@ void MeGlWindow::sendDataToOpenGL()
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
-	//glEnableVertexAttribArray(3);
+	glEnableVertexAttribArray(3);
 	glBindBuffer(GL_ARRAY_BUFFER, theBufferID);
 	GLuint torusByteOffset = planeByteOffset + plane.vertexBufferSize() + plane.indexBufferSize();
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 9, (void*)torusByteOffset);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 9, (void*)(torusByteOffset + sizeof(float) * 3));
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 9, (void*)(torusByteOffset + sizeof(float) * 6));
-	//glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 9, (void*)(torusByteOffset + sizeof(float) * 9));
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 11, (void*)torusByteOffset);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 11, (void*)(torusByteOffset + sizeof(float) * 3));
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 11, (void*)(torusByteOffset + sizeof(float) * 6));
+	glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 11, (void*)(torusByteOffset + sizeof(float) * 8));
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, theBufferID);
 
-	//QImage texImage = QGLWidget::convertToGLFormat(QImage(texName, "PNG"));
+	QImage texImage = QGLWidget::convertToGLFormat(QImage(texName, "PNG"));
 
-	//glActiveTexture(GL_TEXTURE0);
+	glActiveTexture(GL_TEXTURE0);
 
-	//glGenTextures(1, &textureObjectID);
-	//glBindTexture(GL_TEXTURE_2D, textureObjectID);
-	//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texImage.width(), texImage.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, texImage.bits());
-	//glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	//glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glGenTextures(1, &textureObjectID);
+	glBindTexture(GL_TEXTURE_2D, textureObjectID);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texImage.width(), texImage.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, texImage.bits());
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
-	//GLint dogTextureLocation = glGetUniformLocation(programID, "dogTexture");
-	//if (dogTextureLocation >= 0)
-	// {
-	//glUniform1i(dogTextureLocation, 0);
-	//}
+	GLint dogTextureLocation = glGetUniformLocation(programID, "dogTexture");
+	if (dogTextureLocation >= 0)
+	 {
+	glUniform1i(dogTextureLocation, 0);
+	 }
 
 	cube.cleanup();
 	teapot.cleanup();
