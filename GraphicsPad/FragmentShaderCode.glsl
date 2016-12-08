@@ -4,6 +4,7 @@ out vec4 daColor;
 in vec3 normalWorld;
 in vec3 vertexPositionWorld;
 in vec2 UVs;
+in vec3 orthoWorld;
 
 uniform vec3 lightPositionWorld;
 uniform vec4 ambientLight;
@@ -15,10 +16,16 @@ void main()
 {	
 	//sampling the texture
 	vec4 texSample = texture(normalMapTexture, UVs);
-	vec3 normalTangent = vec3(texSample * 2.0 - 1.0);
-
 
 	
+
+	mat3 normalMapTransformation;
+  	normalMapTransformation[0] = vec3(1.0, 0.0, 0.0);
+  	normalMapTransformation[1] = vec3(0.0, 1.0, 0.0);
+	normalMapTransformation[2] = orthoWorld;
+
+	vec3 normalTangetR = normalMapTransformation * vec3(texSample);
+	vec3 normalTangent = vec3(texSample * 2.0 - 1.0);
 
 
 	
