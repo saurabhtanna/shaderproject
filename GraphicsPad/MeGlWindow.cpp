@@ -13,6 +13,7 @@
 using namespace std;
 
 const char * texName = "Dog.png";
+const char * normalMap = "Shapes.png";
 
 using glm::vec3;
 using glm::vec4;
@@ -22,6 +23,7 @@ const uint NUM_VERTICES_PER_TRI = 3;
 const uint NUM_FLOATS_PER_VERTICE = 9;
 const uint VERTEX_BYTE_SIZE = NUM_FLOATS_PER_VERTICE * sizeof(float);
 
+GLuint normalMapID;
 GLuint textureObjectID;
 GLuint programID;
 GLuint teapotNumIndices;
@@ -187,21 +189,36 @@ void MeGlWindow::sendDataToOpenGL()
 	glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 11, (void*)(torusByteOffset + sizeof(float) * 9));
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, theBufferID);
 
-	QImage texImage = QGLWidget::convertToGLFormat(QImage(texName, "PNG"));
+	//QImage texImage = QGLWidget::convertToGLFormat(QImage(texName, "PNG"));
 
+	//glActiveTexture(GL_TEXTURE0);
+
+	//glGenTextures(1, &textureObjectID);
+	//glBindTexture(GL_TEXTURE_2D, textureObjectID);
+	//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texImage.width(), texImage.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, texImage.bits());
+	//glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	//glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+	//GLint dogTextureLocation = glGetUniformLocation(programID, "dogTexture");
+	//if (dogTextureLocation >= 0)
+	// {
+	//glUniform1i(dogTextureLocation, 0);
+	// }
+
+	QImage normalMapImage = QGLWidget::convertToGLFormat(QImage(normalMap, "PNG"));
 	glActiveTexture(GL_TEXTURE0);
 
-	glGenTextures(1, &textureObjectID);
-	glBindTexture(GL_TEXTURE_2D, textureObjectID);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texImage.width(), texImage.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, texImage.bits());
+	glGenTextures(1, &normalMapID);
+	glBindTexture(GL_TEXTURE_2D, normalMapID);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, normalMapImage.width(), normalMapImage.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, normalMapImage.bits());
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
-	GLint dogTextureLocation = glGetUniformLocation(programID, "dogTexture");
-	if (dogTextureLocation >= 0)
-	 {
-	glUniform1i(dogTextureLocation, 0);
-	 }
+	GLint normalMapLocation = glGetUniformLocation(programID, "normalMapTexture");
+	if (normalMapLocation >= 0)
+	{
+		glUniform1i(normalMapLocation, 0);
+	}
 
 	cube.cleanup();
 	teapot.cleanup();
@@ -264,7 +281,7 @@ void MeGlWindow::paintGL()
 	modelToProjectionMatrix = worldToProjectionMatrix * teapot1ModelToWorldMatrix;
 	glUniformMatrix4fv(fullTransformationUniformLocation, 1, GL_FALSE, &modelToProjectionMatrix[0][0]);
 	glUniformMatrix4fv(modelToWorldMatrixUniformLocation, 1, GL_FALSE, &teapot1ModelToWorldMatrix[0][0]);
-	glDrawElements(GL_TRIANGLES, teapotNumIndices, GL_UNSIGNED_SHORT, (void*)teapotIndexByteOffset);
+	//glDrawElements(GL_TRIANGLES, teapotNumIndices, GL_UNSIGNED_SHORT, (void*)teapotIndexByteOffset);
 
 
 
@@ -283,12 +300,12 @@ void MeGlWindow::paintGL()
 	modelToProjectionMatrix = worldToProjectionMatrix * arrowModelToWorldMatrix;
 	glUniformMatrix4fv(fullTransformationUniformLocation, 1, GL_FALSE, &modelToProjectionMatrix[0][0]);
 	glUniformMatrix4fv(modelToWorldMatrixUniformLocation, 1, GL_FALSE, &arrowModelToWorldMatrix[0][0]);
-	glDrawElements(GL_TRIANGLES, arrowNumIndices, GL_UNSIGNED_SHORT, (void*)arrowIndexByteOffset);
+	//glDrawElements(GL_TRIANGLES, arrowNumIndices, GL_UNSIGNED_SHORT, (void*)arrowIndexByteOffset);
 
 	// Plane
 	glUseProgram(programID);
 	glBindVertexArray(planeVertexArrayObjectID);
-	mat4 planeModelToWorldMatrix = glm::translate(0.0f, 0.0f, -5.0f);
+	mat4 planeModelToWorldMatrix = glm::translate(0.0f, 0.0f, -5.0f) * glm::rotate(90.0f, 1.0f, 0.0f, 0.0f);
 	modelToProjectionMatrix = worldToProjectionMatrix * planeModelToWorldMatrix;
 	glUniformMatrix4fv(fullTransformationUniformLocation, 1, GL_FALSE, &modelToProjectionMatrix[0][0]);
 	glUniformMatrix4fv(modelToWorldMatrixUniformLocation, 1, GL_FALSE, &planeModelToWorldMatrix[0][0]);
@@ -301,7 +318,7 @@ void MeGlWindow::paintGL()
 	modelToProjectionMatrix = worldToProjectionMatrix * torusModelToWorldMatrix;
 	glUniformMatrix4fv(fullTransformationUniformLocation, 1, GL_FALSE, &modelToProjectionMatrix[0][0]);
 	glUniformMatrix4fv(modelToWorldMatrixUniformLocation, 1, GL_FALSE, &torusModelToWorldMatrix[0][0]);
-	glDrawElements(GL_TRIANGLES, torusNumIndices, GL_UNSIGNED_SHORT, (void*)torusIndexByteOffset);
+	//glDrawElements(GL_TRIANGLES, torusNumIndices, GL_UNSIGNED_SHORT, (void*)torusIndexByteOffset);
 
 	connect(&timer, SIGNAL(timeout()), this, SLOT(update()));
 	timer.setInterval(16);
@@ -349,7 +366,7 @@ void MeGlWindow::keyPressEvent(QKeyEvent* e)
 		lightPositionY -= lightPositionChange;
 		break;
 	case Qt::Key::Key_Z:
-		lightPositionZ += 0.5; //lightPositionChange;
+		lightPositionZ += lightPositionChange; //lightPositionChange;
 		break;
 	case Qt::Key::Key_X:
 		lightPositionZ -= lightPositionChange;
