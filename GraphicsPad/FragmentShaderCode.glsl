@@ -10,7 +10,7 @@ uniform vec3 lightPositionWorld;
 uniform vec4 ambientLight;
 uniform vec3 eyePositionWorld;
 //uniform sampler2D dogTexture;
-//uniform sampler2D normalMapTexture;
+uniform sampler2D normalMapTexture;
 uniform sampler2D specMap;
 
 void main()
