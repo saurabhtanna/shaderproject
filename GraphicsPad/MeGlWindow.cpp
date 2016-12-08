@@ -14,6 +14,7 @@ using namespace std;
 
 const char * texName = "Dog.png";
 const char * normalMap = "Shapes.png";
+const char * specMap = "Bricks.png";
 
 using glm::vec3;
 using glm::vec4;
@@ -23,6 +24,7 @@ const uint NUM_VERTICES_PER_TRI = 3;
 const uint NUM_FLOATS_PER_VERTICE = 9;
 const uint VERTEX_BYTE_SIZE = NUM_FLOATS_PER_VERTICE * sizeof(float);
 
+GLuint specMapID;
 GLuint normalMapID;
 GLuint textureObjectID;
 GLuint programID;
@@ -205,19 +207,36 @@ void MeGlWindow::sendDataToOpenGL()
 	//glUniform1i(dogTextureLocation, 0);
 	// }
 
-	QImage normalMapImage = QGLWidget::convertToGLFormat(QImage(normalMap, "PNG"));
+
+
+	//QImage normalMapImage = QGLWidget::convertToGLFormat(QImage(normalMap, "PNG"));
+	//glActiveTexture(GL_TEXTURE0);
+	//
+	//glGenTextures(1, &normalMapID);
+	//glBindTexture(GL_TEXTURE_2D, normalMapID);
+	//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, normalMapImage.width(), normalMapImage.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, normalMapImage.bits());
+	//glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	//glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	//
+	//GLint normalMapLocation = glGetUniformLocation(programID, "normalMapTexture");
+	//if (normalMapLocation >= 0)
+	//{
+	//	glUniform1i(normalMapLocation, 0);
+	//}
+
+	QImage specMapImage = QGLWidget::convertToGLFormat(QImage(specMap, "PNG"));
 	glActiveTexture(GL_TEXTURE0);
 
-	glGenTextures(1, &normalMapID);
-	glBindTexture(GL_TEXTURE_2D, normalMapID);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, normalMapImage.width(), normalMapImage.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, normalMapImage.bits());
+	glGenTextures(1, &specMapID);
+	glBindTexture(GL_TEXTURE_2D, specMapID);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, specMapImage.width(), specMapImage.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, specMapImage.bits());
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
-	GLint normalMapLocation = glGetUniformLocation(programID, "normalMapTexture");
-	if (normalMapLocation >= 0)
+	GLint specMapLocation = glGetUniformLocation(programID, "specMap");
+	if (specMapLocation >= 0)
 	{
-		glUniform1i(normalMapLocation, 0);
+		glUniform1i(specMapLocation, 0);
 	}
 
 	cube.cleanup();
@@ -305,7 +324,7 @@ void MeGlWindow::paintGL()
 	// Plane
 	glUseProgram(programID);
 	glBindVertexArray(planeVertexArrayObjectID);
-	mat4 planeModelToWorldMatrix = glm::translate(0.0f, 0.0f, -5.0f) * glm::rotate(90.0f, 1.0f, 0.0f, 0.0f);
+	mat4 planeModelToWorldMatrix = glm::translate(0.0f, 0.0f, -5.0f);
 	modelToProjectionMatrix = worldToProjectionMatrix * planeModelToWorldMatrix;
 	glUniformMatrix4fv(fullTransformationUniformLocation, 1, GL_FALSE, &modelToProjectionMatrix[0][0]);
 	glUniformMatrix4fv(modelToWorldMatrixUniformLocation, 1, GL_FALSE, &planeModelToWorldMatrix[0][0]);
