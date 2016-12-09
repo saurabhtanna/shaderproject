@@ -2,6 +2,7 @@
 #include <glm\glm.hpp>
 #include <Primitives\Vertex.h>
 #include <glm\gtc\matrix_transform.hpp>
+
 #define PI 3.14159265
 using glm::vec3;
 using glm::mat4;
@@ -818,6 +819,8 @@ ShapeData ShapeGenerator::makeTorus(uint tesselation)
 	ret.indices = ret2.indices;
 	return ret;
 }
+
+
 
 
 
