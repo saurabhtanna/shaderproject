@@ -13,7 +13,6 @@
 using namespace std;
 
 const char * texName = "Dog.png";
-const char * ambiMap = "boxAmbient.png";
 const char * normalMap = "Shapes.png";
 const char * specMap = "Bricks.png";
 
@@ -25,7 +24,6 @@ const uint NUM_VERTICES_PER_TRI = 3;
 const uint NUM_FLOATS_PER_VERTICE = 9;
 const uint VERTEX_BYTE_SIZE = NUM_FLOATS_PER_VERTICE * sizeof(float);
 
-GLuint ambiMapID;
 GLuint specMapID;
 GLuint normalMapID;
 GLuint textureObjectID;
@@ -193,22 +191,21 @@ void MeGlWindow::sendDataToOpenGL()
 	glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 11, (void*)(torusByteOffset + sizeof(float) * 9));
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, theBufferID);
 
-	
-	QImage texImage = QGLWidget::convertToGLFormat(QImage(texName, "PNG"));
+	//QImage texImage = QGLWidget::convertToGLFormat(QImage(texName, "PNG"));
 
-	glActiveTexture(GL_TEXTURE0);
+	//glActiveTexture(GL_TEXTURE0);
 
-	glGenTextures(1, &textureObjectID);
-	glBindTexture(GL_TEXTURE_2D, textureObjectID);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texImage.width(), texImage.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, texImage.bits());
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	//glGenTextures(1, &textureObjectID);
+	//glBindTexture(GL_TEXTURE_2D, textureObjectID);
+	//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texImage.width(), texImage.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, texImage.bits());
+	//glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	//glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
-	GLint dogTextureLocation = glGetUniformLocation(programID, "dogTexture");
-	if (dogTextureLocation >= 0)
-	 {
-	glUniform1i(dogTextureLocation, 0);
-	}
+	//GLint dogTextureLocation = glGetUniformLocation(programID, "dogTexture");
+	//if (dogTextureLocation >= 0)
+	// {
+	//glUniform1i(dogTextureLocation, 0);
+	// }
 
 
 
@@ -227,19 +224,19 @@ void MeGlWindow::sendDataToOpenGL()
 	//	glUniform1i(normalMapLocation, 0);
 	//}
 
-	QImage ambiMapImage = QGLWidget::convertToGLFormat(QImage(ambiMap, "PNG"));
-	glActiveTexture(GL_TEXTURE1);
-	
-	glGenTextures(1, &ambiMapID);
-	glBindTexture(GL_TEXTURE_2D, ambiMapID);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, ambiMapImage.width(), ambiMapImage.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, ambiMapImage.bits());
+	QImage specMapImage = QGLWidget::convertToGLFormat(QImage(specMap, "PNG"));
+	glActiveTexture(GL_TEXTURE0);
+
+	glGenTextures(1, &specMapID);
+	glBindTexture(GL_TEXTURE_2D, specMapID);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, specMapImage.width(), specMapImage.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, specMapImage.bits());
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	
-	GLint ambiMapLocation = glGetUniformLocation(programID, "ambiMap");
-	if (ambiMapLocation >= 0)
+
+	GLint specMapLocation = glGetUniformLocation(programID, "specMap");
+	if (specMapLocation >= 0)
 	{
-		glUniform1i(ambiMapLocation, 0);
+		glUniform1i(specMapLocation, 0);
 	}
 
 	cube.cleanup();
@@ -327,7 +324,7 @@ void MeGlWindow::paintGL()
 	// Plane
 	glUseProgram(programID);
 	glBindVertexArray(planeVertexArrayObjectID);
-	mat4 planeModelToWorldMatrix = glm::translate(0.0f, 0.0f, -5.0f) * glm::rotate(90.0f, 1.0f, 0.0f, 0.0f);
+	mat4 planeModelToWorldMatrix = glm::translate(0.0f, 0.0f, -5.0f);
 	modelToProjectionMatrix = worldToProjectionMatrix * planeModelToWorldMatrix;
 	glUniformMatrix4fv(fullTransformationUniformLocation, 1, GL_FALSE, &modelToProjectionMatrix[0][0]);
 	glUniformMatrix4fv(modelToWorldMatrixUniformLocation, 1, GL_FALSE, &planeModelToWorldMatrix[0][0]);
@@ -487,8 +484,6 @@ void MeGlWindow::initializeGL()
 	sendDataToOpenGL();
 	installShaders();
 	fullTransformationUniformLocation = glGetUniformLocation(programID, "modelToProjectionMatrix");
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_DST_ALPHA);
 }
 
 MeGlWindow::~MeGlWindow()

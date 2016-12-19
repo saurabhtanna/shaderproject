@@ -13,7 +13,6 @@ out vec3 normalWorld;
 out vec3 vertexPositionWorld;
 out vec2 UVs;
 out vec3 orthoWorld;
-out vec3 vertexColorAlpha;
 
 void main()
 {	
@@ -30,8 +29,7 @@ void main()
 	}
 	vec3 orthoNormal = normalModel * tangentModel;
 	orthoWorld = vec3(modelToWorldMatrix * vec4(orthoNormal, 0));
-
-	vec3 vetexColorAlpha = vertexColor;
+	
 	
 	vec4 v = vec4(vertexPositionModel, 1.0);
 	gl_Position = modelToProjectionMatrix * v;

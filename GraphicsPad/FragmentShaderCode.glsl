@@ -5,23 +5,28 @@ in vec3 normalWorld;
 in vec3 vertexPositionWorld;
 in vec2 UVs;
 in vec3 orthoWorld;
-in vec3 vertexColorAlpha;
 
 uniform vec3 lightPositionWorld;
 uniform vec4 ambientLight;
 uniform vec3 eyePositionWorld;
-uniform sampler2D dogTexture;
+//uniform sampler2D dogTexture;
 //uniform sampler2D normalMapTexture;
-//uniform sampler2D specMap;
-//uniform sampler2D ambiMap;
+uniform sampler2D specMap;
 
 void main()
 {	
 	//sampling the texture
-	vec3 dogSample =vec3(texture(dogTexture, UVs));
-	//vec4 ambiSample = texture (ambiMap, UVs);
-	 vec4 alpha = vec4 (dogSample, 0.5f);
+	vec4 specSample = texture(specMap, UVs);
+
 	
+	//Rotation matrix for normal map on a cube
+	//mat3 normalMapTransformation;
+  	//normalMapTransformation[0] = vec3(1.0, 0.0, 0.0);
+  	//normalMapTransformation[1] = vec3(0.0, 1.0, 0.0);
+	//normalMapTransformation[2] = orthoWorld;
+
+	//vec3 normalTangetR = normalMapTransformation * vec3(texSample);
+	//vec3 normalTangent = vec3(texSample * 2.0 - 1.0);
 
 
 	
@@ -44,12 +49,14 @@ void main()
 	vec3 reflectedLightVectorWorld = reflect(-lightVectorWorld, normalWorld);
 	vec3 eyeVectorWorld = normalize(eyePositionWorld - vertexPositionWorld);
 	float s = dot(reflectedLightVectorWorld, eyeVectorWorld);
-	s = pow(s, 60);
+	s = pow(s, specSample.x);
 	vec4 specularLight = vec4(0, 0, s, 1);
 
 	
 
 	//daColor = clamp(diffuseLight, 0 ,1) + ambientLight + clamp(specularLight, 0, 1);
 
-	daColor = alpha * (clamp(diffuseLight, 0, 1) + ambientLight + clamp(specularLight, 0, 1));
+	//daColor = specSample * (clamp(diffuseLight, 0, 1) + ambientLight + clamp(specularLight, 0, 1));
+
+	daColor = specSample * clamp(specularLight, 0, 1);
 }
